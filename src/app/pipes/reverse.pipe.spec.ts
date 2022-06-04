@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 
-fdescribe('ReversePipe', () => {
+describe('ReversePipe', () => {
   it('create an instance', () => {
     const pipe = new ReversePipe();
     expect(pipe).toBeTruthy();
@@ -26,7 +26,7 @@ class HostComponent {
   text = '';
 }
 
-fdescribe('ReversePipe using a hostComponent', () => {
+describe('ReversePipe using a hostComponent', () => {
   let component: HostComponent;
   let fixture: ComponentFixture<HostComponent>;
 
@@ -50,5 +50,18 @@ fdescribe('ReversePipe using a hostComponent', () => {
   it('should render the content text in a reverse mode', () => {
     const debugH5: DebugElement = fixture.debugElement.query(By.css('h5'));
     expect(debugH5.nativeElement.textContent).toEqual('otxet');
-  })
+  });
+
+  it('should apply reverse pipe when typing in the input', () => {
+    const debugInput: DebugElement = fixture.debugElement.query(
+      By.css('input')
+    );
+    const nativeInput: HTMLInputElement = debugInput.nativeElement;
+    const debugP: DebugElement = fixture.debugElement.query(By.css('p'));
+    expect(debugP.nativeElement.textContent).toEqual('');
+    nativeInput.value = 'ANA 2';
+    nativeInput.dispatchEvent(new Event('input'));
+    fixture.detectChanges();
+    expect(debugP.nativeElement.textContent).toEqual('2 ANA');
+  });
 });
